@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import uuid
 import flask_login
+from werkzeug import secure_filename
 
 USERS = [
     {
@@ -11,8 +12,10 @@ USERS = [
     }
 ]
 
-class User(flask_login.UserMixin):
+TASKS = [
     pass
+
+]
 
 
 
@@ -108,6 +111,29 @@ def allUsers():
         'users': USERS
     })   
 
+@app.route('/createTask', methods=['POST'])
+def createTask():
+    #TODO: Check if file exists with hash control
+    response_object = {'status': 'success'}
+    taskname = request.form.get('taskname')
+    xfile = request.files.get('file')
+    xfile.save(secure_filename(xfile.filename))
+    step = request.form.get('step')
+    TASKS.append({
+        'id': uuid.uuid4().hex,
+        'filename': xfile.filename,
+        'taskname': taskname,
+        'predictionStep': step
+    })
+    response_object['message'] = 'added'
+    return jsonify(response_object)  
+
+@app.route('/getTasks', methods=['GET'])
+def getTasks():
+     return jsonify({
+        'status': 'success',
+        'tasks': TASKS
+    })  
 
 if __name__ == '__main__':
     app.run()
