@@ -4,7 +4,7 @@
         <h1>Login</h1>
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
-        <button type="button" v-on:click="login()">Register</button>
+        <button type="button" v-on:click="register()">Register</button>
     </div>
 </template>
 
@@ -12,7 +12,7 @@
 import axios from 'axios';
 
 export default {
-  name: 'Login',
+  name: 'Register',
   data() {
     return {
       input: {
@@ -23,7 +23,7 @@ export default {
     };
   },
   methods: {
-    login() {
+    register() {
       this.msg = 'lololo';
 
       const path = 'http://localhost:5000/register';
@@ -37,8 +37,7 @@ export default {
           this.msg = 'posted';
           if (res.data.message === 'exist') {
             this.msg = 'ilya';
-          }
-          else if (res.data.message === 'added') {
+          } else if (res.data.message === 'added') {
             this.msg = 'voila';
           }
         }).catch((error) => {
@@ -46,8 +45,6 @@ export default {
           console.log(error);
           this.getBooks();
         });
-      } else {
-        console.log('A username and password must be present');
       }
     },
   },
