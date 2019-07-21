@@ -13,7 +13,6 @@ USERS = [
 ]
 
 TASKS = [
-    pass
 
 ]
 
@@ -31,34 +30,20 @@ app.config.from_object(__name__)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
+class User(flask_login.UserMixin):
+    pass
+
 @login_manager.user_loader
 def user_loader(username):
     flag = True
+    print('aaaa')
     for u in USERS:
-        if username not in u['username']:
-            flag = False
-    if (not flag):
-        return
-    user.id = username
-    return user
-
-
-@login_manager.request_loader
-def request_loader(request):
-    username = request.data.get('username')
-    flag = True
-    for u in USERS:
-        if username not in u['username']:
+        if username not in u['id']:
             flag = False
     if (not flag):
         return
     user = User()
     user.id = username
-
-    # DO NOT ever store passwords in plaintext and always compare password
-    # hashes using constant-time comparison!
-    user.is_authenticated = request.data['password'] == USERS[username]['password']
-
     return user
 
 
@@ -79,7 +64,11 @@ def login():
     pw = post_data.get("password")
     for user in USERS:
         if (user['username'] == uname and pw == user['password']):
-             response_object['message'] = 'authenticated'
+            current_user = User()
+            current_user.id = user['id']
+            flask_login.login_user(current_user, True)
+            print(flask_login.current_user)
+            response_object['message'] = 'authenticated'
     return jsonify(response_object)
 
 @app.route('/register', methods=['POST'])
@@ -129,6 +118,7 @@ def createTask():
     return jsonify(response_object)  
 
 @app.route('/getTasks', methods=['GET'])
+@flask_login.login_required
 def getTasks():
      return jsonify({
         'status': 'success',
@@ -136,4 +126,5 @@ def getTasks():
     })  
 
 if __name__ == '__main__':
+    app.secret_key = 'some secret key'
     app.run()
