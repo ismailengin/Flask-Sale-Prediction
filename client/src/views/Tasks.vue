@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <navbar></navbar>
     <div class="row">
       <div class="col-sm-10">
         <h1>Tasks</h1>
@@ -25,6 +26,7 @@
 
 <script>
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 export default {
   data() {
@@ -49,6 +51,9 @@ export default {
         });
       }
     },
+  },
+  components:{
+    navbar: Navbar,
   },
   created() {
     this.getTasks();

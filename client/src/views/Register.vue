@@ -1,7 +1,9 @@
 <template>
-    <div id="login">
+    
+    <div id="register">
+      <navbar></navbar>
         <p1> {{msg}} </p1>
-        <h1>Login</h1>
+        <h1>Register</h1>
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
         <button type="button" v-on:click="register()">Register</button>
@@ -10,6 +12,7 @@
 
 <script>
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 export default {
   name: 'Register',
@@ -47,6 +50,9 @@ export default {
         });
       }
     },
+  },
+  components:{
+    navbar: Navbar,
   },
 };
 </script>

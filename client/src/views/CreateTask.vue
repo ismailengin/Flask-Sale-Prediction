@@ -1,6 +1,6 @@
 <template>
-
-   <div id="login">
+   <div id="createTask">
+     <navbar>></navbar>
         <p1> {{msg}} </p1>
         <h1>Create Task</h1>
         <input type="text" name="taskName" v-model="input.taskName" placeholder="Task Name" />
@@ -13,6 +13,7 @@
 
 <script>
 import axios from 'axios';
+import Navbar from '../components/Navbar';
 
 export default {
   name: 'CreateTask',
@@ -57,6 +58,9 @@ export default {
       console.log(this.input.file);
     },
   },
+  components:{
+    navbar: Navbar,
+  },  
 
 };
 </script>

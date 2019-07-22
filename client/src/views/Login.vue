@@ -1,5 +1,6 @@
 <template>
     <div id="login">
+        <navbar  v-on:logOut="onChildClick" :key="navbarFlag"></navbar>
         <p1> {{msg}} </p1>
         <h1>Login</h1>
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
@@ -11,6 +12,7 @@
 <script>
 import axios from 'axios';
 import router from '../router';
+import Navbar from '../components/Navbar';
 
 export default {
   name: 'Login',
@@ -39,6 +41,7 @@ export default {
             if (res.data) {
               this.msg = res.data;
               localStorage.setItem('userToken', res.data);
+              localStorage.setItem('username', this.input.username);
               router.push({path: '/tasks'})
             }
             else {
@@ -54,6 +57,10 @@ export default {
         }   
       },
     
+    },
+
+    components:{
+      navbar: Navbar,
     },
     created() {
       if(this.token) {
