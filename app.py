@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import uuid
-import flask_login
 from werkzeug import secure_filename
 
 
@@ -19,9 +18,7 @@ DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-#Flask-login
-login_manager = flask_login.LoginManager()
-login_manager.init_app(app)
+jwt = JWTManager(app)
 
 #Flask-JWT
 
@@ -117,7 +114,6 @@ def createTask():
     return jsonify(response_object)  
 
 @app.route('/getTasks', methods=['GET'])
-@flask_login.login_required
 def getTasks():
      return jsonify({
         'status': 'success',
