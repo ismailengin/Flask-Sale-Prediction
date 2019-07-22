@@ -112,8 +112,10 @@ def createTask():
     xfile = request.files.get('file')
     xfile.save(secure_filename(xfile.filename))
     step = request.form.get('step')
+    owner = request.form.get('taskowner')
     TASKS.append({
         'id': uuid.uuid4().hex,
+        'owner':  owner,
         'filename': xfile.filename,
         'taskname': taskname,
         'predictionStep': step
@@ -121,11 +123,12 @@ def createTask():
     response_object['message'] = 'added'
     return jsonify(response_object)  
 
-@app.route('/getTasks', methods=['GET'])
+@app.route('/getTasks', methods=['POST'])
 def getTasks():
-     return jsonify({
+    owner = request.form.get('owner')
+    return jsonify({
         'status': 'success',
-        'tasks': TASKS
+        'tasks': [task for task in TASKS if task['owner'] == owner],
     })  
 
 if __name__ == '__main__':

@@ -37,7 +37,9 @@ export default {
     getTasks() {
       const path = 'http://localhost:5000/getTasks';
       if(this.token){
-        axios.get(path)
+        const formData = new FormData();
+        formData.append('owner', localStorage.username);
+        axios.post(path, formData)
         .then((res) => {
           this.tasks = res.data.tasks;
         })
