@@ -8,6 +8,7 @@
     <div id="nav2" v-else>
       <router-link  to="/tasks">Tasks</router-link>
       <router-link  to="/createTask">Create Task</router-link>
+      <button type="button" v-on:click="logout()">Logout</button>
     </div>
     <router-view/>
   </div>
@@ -22,6 +23,14 @@ export default {
       token: localStorage.userToken,
     }
   },
+
+  methods: {
+    logout() {
+      localStorage.removeItem('userToken');
+      router.push('/login');
+    }
+  },
+}
 </script>
 
 <style>
