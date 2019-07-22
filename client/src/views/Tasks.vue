@@ -29,13 +29,15 @@ import axios from 'axios';
 export default {
   data() {
     return {
+      token: localStorage.userToken,
       tasks: [],
     };
   },
   methods: {
     getTasks() {
       const path = 'http://localhost:5000/getTasks';
-      axios.get(path)
+      if(this.token){
+        axios.get(path)
         .then((res) => {
           this.tasks = res.data.tasks;
         })
@@ -43,6 +45,7 @@ export default {
           // eslint-disable-next-line
           console.error(error);
         });
+      }
     },
   },
   created() {

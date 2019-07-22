@@ -10,11 +10,13 @@
 
 <script>
 import axios from 'axios';
+import router from '../router';
 
 export default {
   name: 'Login',
   data() {
     return {
+      token: localStorage.userToken,
       input: {
         username: '',
         password: '',
@@ -24,32 +26,39 @@ export default {
   },
   methods: {
     login() {
-      this.msg = 'lololo';
-
-      const path = 'http://localhost:5000/authenticate';
-      if (this.input.username !== '' && this.input.password !== '') {
-        const payload = {
-          username: this.input.username,
-          password: this.input.password,
-        };
-        this.msg = this.input.username + this.input.password;
-        axios.post(path, payload).then((res) => {
-          this.msg = 'posted';
-          if (res.data.message === 'authenticated') {
-            this.msg = 'login success';
-          }
-          else {
-            this.msg = 'no';
-          }
-        }).catch((error) => {
-          // eslint-disable-next-line
-          console.log(error);
-          this.getBooks();
-        });
-      } else {
-        console.log('A username and password must be present');
-      }
+        this.msg = 'lololo';
+        const path = 'http://localhost:5000/authenticate';
+        if (this.input.username !== '' && this.input.password !== '') {
+          const payload = {
+            username: this.input.username,
+            password: this.input.password,
+          };
+          this.msg = this.input.username + this.input.password;
+          axios.post(path, payload).then((res) => {
+            this.msg = 'posted';
+            if (res.data) {
+              this.msg = res.data;
+              localStorage.setItem('userToken', res.data);
+              router.push({path: '/tasks'})
+            }
+            else {
+              this.msg = 'no';
+            }
+          }).catch((error) => {
+            // eslint-disable-next-line
+            console.log(error);
+            this.getBooks();
+          });
+        } else {
+          console.log('A username and password must be present');
+        }   
+      },
+    
     },
+    created() {
+      if(this.token) {
+        router.push({path:'/tasks'})
+      }
   },
 };
 </script>

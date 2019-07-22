@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import uuid
 from werkzeug import secure_filename
+from flask_jwt_extended import create_access_token, JWTManager
 
 
 TASKS = [
@@ -70,6 +71,10 @@ def login():
             })
         result = access_token    
         #response_object['message'] = 'authenticated'
+    else:
+        result = jsonify({"error": "Invalid username and password"}) 
+    print(result)   
+    return result
 
 @app.route('/register', methods=['POST'])
 #TODO: Passwordlari hashle
@@ -87,6 +92,9 @@ def register():
             'password': pw,
         })
         response_object['message'] = 'added'
+        
+    else:
+        response_object['message'] ='exist'     
     return jsonify(response_object)
 
 @app.route('/getusers', methods=['GET'])

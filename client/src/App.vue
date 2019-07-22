@@ -9,6 +9,17 @@
   </div>
 </template>
 
+<script>
+import router from './router'
+export default {
+  name: 'App',
+  data() {
+    return {
+      token: localStorage.userToken,
+    }
+  },
+</script>
+
 <style>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
