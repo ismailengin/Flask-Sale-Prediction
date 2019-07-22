@@ -4,13 +4,6 @@ import uuid
 import flask_login
 from werkzeug import secure_filename
 
-USERS = [
-    {
-        'id' : uuid.uuid4().hex,
-        'username': 'a',
-        'password': '123',
-    }
-]
 
 TASKS = [
 
@@ -30,21 +23,31 @@ app.config.from_object(__name__)
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 
-class User(flask_login.UserMixin):
-    pass
+#Flask-JWT
 
-@login_manager.user_loader
-def user_loader(username):
-    flag = True
+class User(object):
+    def __init__(self, id, username, password):
+        self.id = id
+        self.username = username
+        self.password = password
+
+    def __str__(self):
+        return "User(id='%s')" % self.id
+
+USERS = [
+    User(uuid.uuid4().hex, 'a', '123')
+]
+
+username_table = {u.username: u for u in USERS}
+userid_table = {u.id: u for u in USERS}
+
+
+
+def authenticate(username, password):
     print('aaaa')
-    for u in USERS:
-        if username not in u['id']:
-            flag = False
-    if (not flag):
-        return
-    user = User()
-    user.id = username
-    return user
+    user = username_table.get(username, None)
+    if user and password == user.password:
+        return user
 
 
 # enable CORS
@@ -62,14 +65,14 @@ def login():
     post_data = request.get_json()
     uname = post_data.get("username")
     pw = post_data.get("password")
-    for user in USERS:
-        if (user['username'] == uname and pw == user['password']):
-            current_user = User()
-            current_user.id = user['id']
-            flask_login.login_user(current_user, True)
-            print(flask_login.current_user)
-            response_object['message'] = 'authenticated'
-    return jsonify(response_object)
+    user = authenticate(uname,pw)
+    if user:
+        access_token = create_access_token(
+            identity={
+                'id': user.id,
+            })
+        result = access_token    
+        #response_object['message'] = 'authenticated'
 
 @app.route('/register', methods=['POST'])
 #TODO: Passwordlari hashle
@@ -79,12 +82,8 @@ def register():
     uname = post_data.get("username")
     pw = post_data.get("password")
     flag = False
-    for user in USERS:
-        if (user['username'] == uname):
-             response_object['message'] = 'exist'
-             flag = True
-             break
-    if not flag:
+    user = username_table.get(uname, None)
+    if not user:
         USERS.append({
             'id': uuid.uuid4().hex,
             'username': uname,
