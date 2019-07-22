@@ -1,7 +1,6 @@
 <template>
    <div id="createTask">
      <navbar>></navbar>
-        <p1> {{msg}} </p1>
         <h1>Create Task</h1>
         <input type="text" name="taskName" v-model="input.taskName" placeholder="Task Name" />
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
