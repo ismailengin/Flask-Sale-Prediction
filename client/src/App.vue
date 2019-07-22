@@ -1,9 +1,13 @@
 <template>
   <div id="app">
     <h1>Pizza Sales </h1>
-    <div id="nav">
-      <router-link to="/login">Login</router-link>
-      <router-link to="/register">Register</router-link>
+    <div id="nav1" v-if='!token'>
+      <router-link  to="/login">Login</router-link>
+      <router-link  to="/register">Register</router-link>
+    </div>
+    <div id="nav2" v-else>
+      <router-link  to="/tasks">Tasks</router-link>
+      <router-link  to="/createTask">Create Task</router-link>
     </div>
     <router-view/>
   </div>
