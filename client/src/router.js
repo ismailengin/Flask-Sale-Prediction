@@ -12,6 +12,11 @@ export default new Router({
   base: process.env.BASE_URL,
   routes: [
     {
+      path: '/',
+      name: '/home',
+      component: Login,
+    },
+    {
       path: '/login',
       name: 'login',
       component: Login,
@@ -30,6 +35,6 @@ export default new Router({
       path: '/tasks',
       name: 'Tasks',
       component: Tasks,
-    }
+    },
   ],
 });
