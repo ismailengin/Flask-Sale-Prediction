@@ -12,7 +12,7 @@
 
 <script>
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar.vue';
 
 export default {
   name: 'CreateTask',
@@ -32,7 +32,7 @@ export default {
       const path = 'http://localhost:5000/createTask';
       if (this.input.taskName !== '' && this.input.predictionStep !== '') {
         const formData = new FormData();
-        formData.append('taskowner', localStorage.username )
+        formData.append('taskowner', localStorage.username);
         formData.append('taskname', this.input.taskName);
         formData.append('file', this.input.file);
         formData.append('step', this.input.predictionStep);
@@ -57,9 +57,9 @@ export default {
       console.log(this.input.file);
     },
   },
-  components:{
+  components: {
     navbar: Navbar,
-  },  
+  },
 
 };
 </script>
