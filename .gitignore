@@ -101,3 +101,7 @@ client/TODO
 s-l300\.jpg
 
 client/\.vscode/settings\.json
+
+dataset\.csv
+
+__pycache__/
