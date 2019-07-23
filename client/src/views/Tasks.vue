@@ -12,7 +12,7 @@
               <td>{{ tasks.taskname }}</td>
               <td>
                 <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-warning btn-sm">Update</button>
+                  <button type="button" class="btn btn-warning btn-sm" v-on:click="startPrediction(tasks.id)">Update</button>
                   <button type="button" class="btn btn-danger btn-sm">Delete</button>
                 </div>
               </td>
@@ -51,7 +51,19 @@ export default {
         });
       }
     },
+    startPrediction(taskname){
+      const path = `http://localhost:5000/predict/${taskname}`;
+      axios.put(path)
+      .then(() => {
+      })
+      .catch((error) => {
+      // eslint-disable-next-line
+      console.error(error);
+      });
+      console.log(path)
+    },
   },
+ 
   components:{
     navbar: Navbar,
   },

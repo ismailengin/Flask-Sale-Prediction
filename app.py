@@ -3,13 +3,13 @@ from flask_cors import CORS
 import uuid
 from werkzeug import secure_filename
 from flask_jwt_extended import create_access_token, JWTManager
+import LSTM
+from threading import Thread
 
 
 TASKS = [
-
+    {'id': '02cc3989e4574e03a29756b530415edc', 'owner': 'a', 'filename': 'dataset.csv', 'taskname': 'asdad', 'predictionStep': '3'}
 ]
-
-
 
 
 # configuration
@@ -129,8 +129,26 @@ def getTasks():
     return jsonify({
         'status': 'success',
         'tasks': [task for task in TASKS if task['owner'] == owner],
-    })  
+    })
 
+@app.route('/predict/<task_id>', methods=['PUT'])
+def predict(task_id):
+    index = 0
+    for i in range(0, len(TASKS)):
+        if task_id == TASKS[i]:
+            index = i
+            break
+    task = TASKS[index]
+    print(task['filename'])
+    t1 = Thread(target=LSTM.calculate_predict, args=[task['filename'], task['predictionStep']])
+    t1.start()
+    t1.join()
+    #LSTM.calculate_predict(task['filename'], task['predictionStep'])
+    return jsonify({
+        'status': 'success',
+        #'tasks': [task for task in TASKS if task['owner'] == owner],
+    })
+    
 if __name__ == '__main__':
     app.secret_key = 'some secret key'
     app.run()
