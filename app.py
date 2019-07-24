@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 import uuid
 from werkzeug import secure_filename
@@ -8,15 +8,17 @@ from threading import Thread
 
 
 TASKS = [
-    {'id': '02cc3989e4574e03a29756b530415edc', 'owner': 'a', 'filename': 'dataset.csv', 'taskname': 'asdad', 'predictionStep': '3'}
+    {'id': '02cc3989e4574e03a29756b530415edc', 'owner': 'a', 'filename': 'dataset.csv', 'taskname': 'asdad', 'predictionStep': '5'}
 ]
 
+RESULTS = [
 
+]
 # configuration
 DEBUG = True
 
 # instantiate the app
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 app.config.from_object(__name__)
 
 jwt = JWTManager(app)
@@ -118,7 +120,8 @@ def createTask():
         'owner':  owner,
         'filename': xfile.filename,
         'taskname': taskname,
-        'predictionStep': step
+        'predictionStep': step,
+        'predicted': False
     })
     response_object['message'] = 'added'
     return jsonify(response_object)  
@@ -133,22 +136,37 @@ def getTasks():
 
 @app.route('/predict/<task_id>', methods=['PUT'])
 def predict(task_id):
+    RESULTS.append({
+        'task_id': task_id,
+        'status': False
+    })
     index = 0
     for i in range(0, len(TASKS)):
-        if task_id == TASKS[i]:
+        if task_id == TASKS[i]['id']:
             index = i
             break
     task = TASKS[index]
     print(task['filename'])
-    t1 = Thread(target=LSTM.calculate_predict, args=[task['filename'], task['predictionStep']])
+    t1 = Thread(target=LSTM.calculate_predict, args=[task_id, task['filename'], task['predictionStep'], RESULTS])
     t1.start()
     t1.join()
-    #LSTM.calculate_predict(task['filename'], task['predictionStep'])
+    result_index = 0
+    for i in range(0, len(RESULTS)):
+        if task_id == RESULTS[i]['task_id']:
+            result_index = i
+            break
+    if RESULTS[result_index]['status'] == True:
+        TASKS[index]['predicted'] = True
+    print(TASKS)   
     return jsonify({
         'status': 'success',
         #'tasks': [task for task in TASKS if task['owner'] == owner],
     })
-    
+
+@app.route('/show/<task_id>', methods=['GET'])
+def show_task_result(task_id):
+    return send_from_directory('results', task_id+'.png')
+
 if __name__ == '__main__':
     app.secret_key = 'some secret key'
     app.run()

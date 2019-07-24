@@ -4,6 +4,7 @@ import Login from './views/Login.vue';
 import Register from './views/Register.vue';
 import CreateTask from './views/CreateTask.vue';
 import Tasks from './views/Tasks.vue';
+import Result from './views/Result.vue';
 
 Vue.use(Router);
 
@@ -35,6 +36,11 @@ export default new Router({
       path: '/tasks',
       name: 'Tasks',
       component: Tasks,
+    },
+    {
+      path: '/result',
+      name: 'Result',
+      component: Result,
     },
   ],
 });

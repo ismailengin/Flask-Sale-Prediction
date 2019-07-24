@@ -6,22 +6,21 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.layers import LSTM
 import numpy as np
+import os
 
 
-def calculate_predict(filename, prediction_step):
-    prediction_step = int(prediction_step)
-    print("Filename" + filename)     
+def calculate_predict(task_id, filename, prediction_step, results):
+       
     scaler = MinMaxScaler()
     df = pd.read_csv(filename)
+    prediction_step = int(prediction_step)
+    print("Filename" + filename) 
+    scaler = MinMaxScaler()
     df.Month = pd.to_datetime(df.Month)
     rows_list = []
     end_month =df.Month[len(df.Month)-1]
     for i in range(1, prediction_step):
-        dict1 ={}
-        dict1.update({end_month+pd.DateOffset(months=i):'0'})
-        rows_list.append(dict1)
-
-    df.append(rows_list)
+        df.loc[len(df)] = [end_month+pd.DateOffset(months=i), 0]
     df = df.set_index("Month")
     df.index.freq = 'MS'
     train_size = int(len(df) * 0.50)
@@ -57,6 +56,7 @@ def calculate_predict(filename, prediction_step):
 
     lstm_predictions = scaler.inverse_transform(lstm_predictions_scaled)
 
+    test[test['Sales']==0] = np.nan
     test['LSTM_Predictions'] = lstm_predictions
 
     print(test)

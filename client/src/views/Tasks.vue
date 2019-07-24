@@ -13,6 +13,10 @@
               <td>
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-warning btn-sm" v-on:click="startPrediction(tasks.id)">Update</button>
+                  <!---<button type="button" v-if='tasks.predicted' class="btn btn-warning btn-sm"
+                    v-on:click="showResult(tasks.id)">Show</button>-->
+                    <router-link :to="{ name: 'Result', params: { id: tasks.id } }" 
+                      v-if='tasks.predicted' class="btn btn-warning btn-sm" >Show</router-link>
                   <button type="button" class="btn btn-danger btn-sm">Delete</button>
                 </div>
               </td>
@@ -27,6 +31,7 @@
 <script>
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import router from '../router';
 
 export default {
   data() {
@@ -55,16 +60,22 @@ export default {
       const path = `http://localhost:5000/predict/${taskname}`;
       axios.put(path)
       .then(() => {
-      })
-      .catch((error) => {
-      // eslint-disable-next-line
+    showResult(taskid) {
+      const path = `http://localhost:5000/show/${taskid}`;
+      axios.get(path)
+        .then((res) => {
+          router.push('./result');
+          console.log(res);
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
       console.error(error);
-      });
-      console.log(path)
+        });
+      console.log(path);
     },
   },
- 
-  components:{
+
+  components: {
     navbar: Navbar,
   },
   created() {
