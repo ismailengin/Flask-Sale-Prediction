@@ -58,8 +58,21 @@ def calculate_predict(task_id, filename, prediction_step, results):
 
     test[test['Sales']==0] = np.nan
     test['LSTM_Predictions'] = lstm_predictions
-
     print(test)
     test['Sales'].plot(figsize = (16,5), legend=True)
     test['LSTM_Predictions'].plot(legend = True)
-    pyplot.show()
+    #pyplot.xlim(left=0.3)
+    #pyplot.show()
+    strFile = './results/' + task_id + ".png"
+    print(strFile)
+    if os.path.isfile(strFile):
+        #os.remove(strFile)    
+        os.system("rm "+strFile)
+    pyplot.savefig(strFile)
+    pyplot.clf()    
+    for i in range(0, len(results)):
+        if task_id == results[i]['task_id']:
+            index = i
+            break
+    print("Task id: " + results[index]['task_id'])            
+    results[index]['status'] = True
