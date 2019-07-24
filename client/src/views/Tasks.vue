@@ -12,7 +12,8 @@
               <td>{{ tasks.taskname }}</td>
               <td>
                 <div class="btn-group" role="group">
-                  <button type="button" class="btn btn-warning btn-sm" v-on:click="startPrediction(tasks.id)">Update</button>
+                  <button type="button" class="btn btn-warning btn-sm"
+                    v-on:click="startPrediction(tasks.id)">Update</button>
                   <!---<button type="button" v-if='tasks.predicted' class="btn btn-warning btn-sm"
                     v-on:click="showResult(tasks.id)">Show</button>-->
                     <router-link :to="{ name: 'Result', params: { id: tasks.id } }" 
@@ -38,6 +39,8 @@ export default {
     return {
       token: localStorage.userToken,
       tasks: [],
+      startTime: '-',
+      endTime: '-',
     };
   },
   methods: {
@@ -56,10 +59,23 @@ export default {
         });
       }
     },
-    startPrediction(taskname){
-      const path = `http://localhost:5000/predict/${taskname}`;
+    startPrediction(taskid) {
+      const today = new Date();
+      this.startTime = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
+      const path = `http://localhost:5000/predict/${taskid}`;
       axios.put(path)
-      .then(() => {
+        .then(() => {
+          this.getTasks();
+          const now = new Date();
+          this.endTime = `${now.getHours()}:${now.getMinutes()}:${now.getSeconds()}`;
+        })
+        .catch((error) => {
+          // eslint-disable-next-line
+      console.error(error);
+        });
+      console.log(path);
+    },
+
     showResult(taskid) {
       const path = `http://localhost:5000/show/${taskid}`;
       axios.get(path)
