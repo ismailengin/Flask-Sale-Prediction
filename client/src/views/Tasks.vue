@@ -31,7 +31,7 @@
 
 <script>
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar.vue';
 import router from '../router';
 
 export default {
@@ -46,17 +46,17 @@ export default {
   methods: {
     getTasks() {
       const path = 'http://localhost:5000/getTasks';
-      if(this.token){
+      if (this.token) {
         const formData = new FormData();
         formData.append('owner', localStorage.username);
         axios.post(path, formData)
-        .then((res) => {
-          this.tasks = res.data.tasks;
-        })
-        .catch((error) => {
+          .then((res) => {
+            this.tasks = res.data.tasks;
+          })
+          .catch((error) => {
           // eslint-disable-next-line
           console.error(error);
-        });
+          });
       }
     },
     startPrediction(taskid) {
