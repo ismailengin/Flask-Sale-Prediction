@@ -1,18 +1,26 @@
 <template>
-   <div id="createTask">
-     <navbar>></navbar>
+  <div id="container">
+     <navbar></navbar>
+    <div id="createTask" class="col-sm"> 
         <h1>Create Task</h1>
-        <input type="text" name="taskName" v-model="input.taskName" placeholder="Task Name" />
-        <br>
-        <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
-        <br>
-        <input type="text" name="predictionStep"
+      <b-form>
+        <b-form-group>
+        <b-form-input type="text" name="taskName" v-model="input.taskName" placeholder="Task Name" />
+        </b-form-group>
+        <b-form-group>
+        <b-form-file type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+        </b-form-group>
+        <b-form-group>
+        <b-form-input type="text" name="predictionStep"
         v-model="input.predictionStep" placeholder="Prediction Step" />
-        <br>
-        <button type="button" v-on:click="createTask()">Add Task</button>
+        </b-form-group>
+        
+        <button type="button" class="btn btn-warning btn-sm" v-on:click="createTask()">Add Task</button>
         <br><br>
         <p1> {{msg}} </p1>
+      </b-form>
     </div>
+  </div>
 </template>
 
 <script>
@@ -78,3 +86,11 @@ export default {
 
 };
 </script>
+
+<style >
+  #createTask{
+    padding-left:20px;
+    padding-right:20px;
+  }
+    
+</style>

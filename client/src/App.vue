@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <h1>Pizza Sales</h1>
+    <div class="container">
+    
     <router-view/>
+    </div>
   </div>
 </template>
 

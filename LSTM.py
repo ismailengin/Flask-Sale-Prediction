@@ -62,10 +62,10 @@ def calculate_predict(task_id, filename, prediction_step, results):
     lstm_predictions = scaler.inverse_transform(lstm_predictions_scaled)
 
     test[test['Sales']==0] = np.nan
-    test['LSTM_Predictions'] = lstm_predictions
+    test['Predictions'] = lstm_predictions
     print(test)
     test['Sales'].plot(figsize = (16,5), legend=True)
-    test['LSTM_Predictions'].plot(legend = True)
+    test['Predictions'].plot(legend = True)
     #pyplot.xlim(left=0.3)
     #pyplot.show()
     strFile = './results/' + task_id + ".png"

@@ -1,8 +1,10 @@
 <template>
     <div class="hello">
-        <h1>Sales {{ id }}</h1>
-        <img :src="`http://localhost:5000/show/${id}`">
-        <a style="cursor: pointer; text-decoration: underline" v-on:click="goBack()">Go Back</a>
+      <navbar></navbar>
+        <h1>Result of {{ name }}</h1>
+        <img class="col-sm-12" :src="`http://localhost:5000/show/${id}`">
+        <br>
+        <a style="cursor: pointer; " class="btn btn-warning btn-sm" v-on:click="goBack()">Go Back</a>
         <button type="button" class="btn btn-warning btn-sm" v-on:click="download()">Export</button>
     </div>
 
@@ -11,17 +13,20 @@
 
 <script>
 import axios from 'axios';
+import Navbar from '../components/Navbar.vue'
 
 export default {
   name: 'Result',
   data() {
     return {
       id: 0,
+      name: '',
       src: '',
     };
   },
   created() {
     this.id = this.$route.params.id;
+    this.name = this.$route.params.name;
   },
   methods: {
     goBack() {
@@ -42,6 +47,9 @@ export default {
         link.click();
       });
     },
+  },
+  components: {
+    navbar: Navbar,
   },
 };
 </script>
