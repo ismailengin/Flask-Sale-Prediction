@@ -1,5 +1,7 @@
 from sklearn.preprocessing import MinMaxScaler
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot
 from keras.preprocessing.sequence import TimeseriesGenerator
 from keras.models import Sequential
@@ -10,14 +12,12 @@ import os
 
 
 def calculate_predict(task_id, filename, prediction_step, results):
-       
     scaler = MinMaxScaler()
     extension = (filename.split("."))[1]
     if extension == "csv":   
         df = pd.read_csv(filename)
     elif (extension == "xlsx") or (extension == "xls"):
         df = pd.read_excel(filename)
-    df = pd.read_csv(filename)
     prediction_step = int(prediction_step)
     print("Filename" + filename) 
     scaler = MinMaxScaler()
