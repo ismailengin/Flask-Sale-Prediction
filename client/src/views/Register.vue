@@ -1,5 +1,5 @@
 <template>
-    
+
     <div id="register">
       <navbar></navbar>
         <h1>Register</h1>
@@ -13,7 +13,7 @@
 
 <script>
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar.vue';
 
 export default {
   name: 'Register',
@@ -46,13 +46,12 @@ export default {
           console.log(error);
           this.getBooks();
         });
-      }
-      else {
-        this.msg = 'A username and password must be present'
+      } else {
+        this.msg = 'A username and password must be present';
       }
     },
   },
-  components:{
+  components: {
     navbar: Navbar,
   },
 };

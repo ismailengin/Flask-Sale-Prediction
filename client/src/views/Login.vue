@@ -29,44 +29,41 @@ export default {
   },
   methods: {
     login() {
-        const path = 'http://localhost:5000/authenticate';
-        if (this.input.username !== '' && this.input.password !== '') {
-          const payload = {
-            username: this.input.username,
-            password: this.input.password,
-          };
-          this.msg = this.input.username + this.input.password;
-          axios.post(path, payload).then((res) => {
-            if(!res.data.error)
-            {
-                this.msg = res.data;
-                localStorage.setItem('userToken', res.data);
-                localStorage.setItem('username', this.input.username);
-                router.push({path: '/tasks'});
-            }
-
-            else {
-              this.msg = res.data.error;
-            }
-          }).catch((error) => {
-            // eslint-disable-next-line
+      const path = 'http://localhost:5000/authenticate';
+      if (this.input.username !== '' && this.input.password !== '') {
+        const payload = {
+          username: this.input.username,
+          password: this.input.password,
+        };
+        this.msg = this.input.username + this.input.password;
+        axios.post(path, payload).then((res) => {
+          if (!res.data.error) {
+            this.msg = res.data;
+            localStorage.setItem('userToken', res.data);
+            localStorage.setItem('username', this.input.username);
+            router.push({ path: '/tasks' });
+          } else {
+            this.msg = res.data.error;
+          }
+        }).catch((error) => {
+          // eslint-disable-next-line
             console.log(error);
-            this.getBooks();
-          });
-        } else {
-          this.msg = 'A username and password must be present';
-        }   
-      },
-    
+          this.getBooks();
+        });
+      } else {
+        this.msg = 'A username and password must be present';
+      }
     },
 
-    components:{
-      navbar: Navbar,
-    },
-    created() {
-      if(this.token) {
-        router.push({path:'/tasks'})
-      }
+  },
+
+  components: {
+    navbar: Navbar,
+  },
+  created() {
+    if (this.token) {
+      router.push({ path: '/tasks' });
+    }
   },
 };
 </script>

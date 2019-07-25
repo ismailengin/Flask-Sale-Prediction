@@ -18,7 +18,7 @@
                     v-on:click="startPrediction(tasks.id)">Update</button>
                   <!---<button type="button" v-if='tasks.predicted' class="btn btn-warning btn-sm"
                     v-on:click="showResult(tasks.id)">Show</button>-->
-                    <router-link :to="{ name: 'Result', params: { id: tasks.id } }" 
+                    <router-link :to="{ name: 'Result', params: { id: tasks.id } }"
                       v-if='tasks.predicted' class="btn btn-warning btn-sm" >Show</router-link>
                   <button type="button" class="btn btn-danger btn-sm">Delete</button>
                 </div>
