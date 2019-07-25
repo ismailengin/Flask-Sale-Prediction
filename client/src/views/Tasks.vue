@@ -77,20 +77,6 @@ export default {
         });
       console.log(path);
     },
-
-    showResult(taskid) {
-      const path = `http://localhost:5000/show/${taskid}`;
-      axios.get(path)
-        .then((res) => {
-          router.push('./result');
-          console.log(res);
-        })
-        .catch((error) => {
-          // eslint-disable-next-line
-      console.error(error);
-        });
-      console.log(path);
-    },
   },
 
   components: {

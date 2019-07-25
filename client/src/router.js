@@ -38,7 +38,7 @@ export default new Router({
       component: Tasks,
     },
     {
-      path: '/result',
+      path: '/result/:id',
       name: 'Result',
       component: Result,
     },
