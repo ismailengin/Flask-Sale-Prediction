@@ -34,7 +34,6 @@
 <script>
 import axios from 'axios';
 import Navbar from '../components/Navbar.vue';
-import router from '../router';
 
 export default {
   data() {
