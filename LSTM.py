@@ -71,8 +71,8 @@ def calculate_predict(task_id, filename, prediction_step, results):
     strFile = './results/' + task_id + ".png"
     print(strFile)
     if os.path.isfile(strFile):
-        #os.remove(strFile)    
-        os.system("rm "+strFile)
+        os.remove(strFile)    
+        #os.system("rm "+strFile)
     pyplot.savefig(strFile)
     pyplot.clf()    
     for i in range(0, len(results)):
