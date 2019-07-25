@@ -3,10 +3,15 @@
      <navbar>></navbar>
         <h1>Create Task</h1>
         <input type="text" name="taskName" v-model="input.taskName" placeholder="Task Name" />
+        <br>
         <input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/>
+        <br>
         <input type="text" name="predictionStep"
         v-model="input.predictionStep" placeholder="Prediction Step" />
-        <button type="button" v-on:click="createTask()">Register</button>
+        <br>
+        <button type="button" v-on:click="createTask()">Add Task</button>
+        <br><br>
+        <p1> {{msg}} </p1>
     </div>
 </template>
 
@@ -23,13 +28,13 @@ export default {
         file: '',
         predictionStep: '',
       },
-      msg: 'Hallo',
+      msg: '',
     };
   },
   methods: {
     createTask() {
       const path = 'http://localhost:5000/createTask';
-      if (this.input.taskName !== '' && this.input.predictionStep !== '') {
+      if (this.input.taskName !== '' && this.input.predictionStep !== '' && this.input.file !== '') {
         const formData = new FormData();
         formData.append('taskowner', localStorage.username);
         formData.append('taskname', this.input.taskName);
@@ -49,10 +54,22 @@ export default {
           console.log(error);
         });
       }
+      else {
+        this.msg = 'All fields must be present'
+      }
     },
     handleFileUpload() {
       this.input.file = this.$refs.file.files[0];
-      console.log(this.input.file);
+
+      const file_extension = (this.input.file.name).split('.')[1];
+      console.log(file_extension);
+      if (file_extension !== 'xlsx' && file_extension !== 'csv') {
+        this.msg = 'File extension needs to be .csv or .xlsx';
+        this.input.file = ''
+      } else {
+        this.msg = '';
+      }
+      // console.log(this.input.file.name);
     },
   },
   components: {
