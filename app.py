@@ -38,16 +38,14 @@ USERS = [
     User(uuid.uuid4().hex, 'a', '123')
 ]
 
-username_table = {u.username: u for u in USERS}
-userid_table = {u.id: u for u in USERS}
 
 
 
 def authenticate(username, password):
     print('aaaa')
-    user = username_table.get(username, None)
-    if user and password == user.password:
-        return user
+    for u in USERS:
+        if u.username == username and u.password == password:
+            return u
 
 
 # enable CORS
@@ -61,7 +59,6 @@ def ping_pong():
 
 @app.route('/authenticate', methods=['POST'])
 def login():
-    response_object = {'status': 'success'}
     post_data = request.get_json()
     uname = post_data.get("username")
     pw = post_data.get("password")
@@ -71,10 +68,9 @@ def login():
             identity={
                 'id': user.id,
             })
-        result = access_token    
-        #response_object['message'] = 'authenticated'
+        result = access_token
     else:
-        result = jsonify({"error": "Invalid username and password"}) 
+        result = jsonify({"error": "Invalid username or password"}) 
     print(result)   
     return result
 
@@ -86,13 +82,16 @@ def register():
     uname = post_data.get("username")
     pw = post_data.get("password")
     flag = False
-    user = username_table.get(uname, None)
-    if not user:
-        USERS.append({
-            'id': uuid.uuid4().hex,
-            'username': uname,
-            'password': pw,
-        })
+    for u in USERS:
+        if u.username == uname:
+            flag = True
+            break
+    if not flag:
+        USERS.append(User(
+            uuid.uuid4().hex,
+            uname,
+            pw,
+        ))
         response_object['message'] = 'added'
         
     else:

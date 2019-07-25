@@ -2,11 +2,12 @@
     
     <div id="register">
       <navbar></navbar>
-        <p1> {{msg}} </p1>
         <h1>Register</h1>
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
         <button type="button" v-on:click="register()">Register</button>
+        <br><br>
+        <p1> {{msg}} </p1>
     </div>
 </template>
 
@@ -22,13 +23,11 @@ export default {
         username: '',
         password: '',
       },
-      msg: 'Hallo',
+      msg: '',
     };
   },
   methods: {
     register() {
-      this.msg = 'lololo';
-
       const path = 'http://localhost:5000/register';
       if (this.input.username !== '' && this.input.password !== '') {
         const payload = {
@@ -37,17 +36,19 @@ export default {
         };
         this.msg = this.input.username + this.input.password;
         axios.post(path, payload).then((res) => {
-          this.msg = 'posted';
           if (res.data.message === 'exist') {
-            this.msg = 'ilya';
+            this.msg = 'There username exists. Please choose another one.';
           } else if (res.data.message === 'added') {
-            this.msg = 'voila';
+            this.msg = 'Registered';
           }
         }).catch((error) => {
           // eslint-disable-next-line
           console.log(error);
           this.getBooks();
         });
+      }
+      else {
+        this.msg = 'A username and password must be present'
       }
     },
   },

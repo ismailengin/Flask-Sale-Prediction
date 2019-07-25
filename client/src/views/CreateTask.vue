@@ -28,7 +28,6 @@ export default {
   },
   methods: {
     createTask() {
-      this.msg = 'lololo';
       const path = 'http://localhost:5000/createTask';
       if (this.input.taskName !== '' && this.input.predictionStep !== '') {
         const formData = new FormData();
@@ -42,7 +41,6 @@ export default {
               'Content-Type': 'multipart/form-data',
             },
           }).then((res) => {
-          this.msg = 'posted';
           if (res.data.message === 'added') {
             console.log('added');
           }

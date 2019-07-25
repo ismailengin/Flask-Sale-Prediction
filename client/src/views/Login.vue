@@ -1,18 +1,19 @@
 <template>
     <div id="login">
         <navbar  v-on:logOut="onChildClick" :key="navbarFlag"></navbar>
-        <p1> {{msg}} </p1>
         <h1>Login</h1>
         <input type="text" name="username" v-model="input.username" placeholder="Username" />
         <input type="password" name="password" v-model="input.password" placeholder="Password" />
         <button type="button" v-on:click="login()">Login</button>
+        <br><br>
+        <p1> {{msg}} </p1>
     </div>
 </template>
 
 <script>
 import axios from 'axios';
 import router from '../router';
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar.vue';
 
 export default {
   name: 'Login',
@@ -23,12 +24,11 @@ export default {
         username: '',
         password: '',
       },
-      msg: 'Hallo',
+      msg: '',
     };
   },
   methods: {
     login() {
-        this.msg = 'lololo';
         const path = 'http://localhost:5000/authenticate';
         if (this.input.username !== '' && this.input.password !== '') {
           const payload = {
@@ -37,15 +37,16 @@ export default {
           };
           this.msg = this.input.username + this.input.password;
           axios.post(path, payload).then((res) => {
-            this.msg = 'posted';
-            if (res.data) {
-              this.msg = res.data;
-              localStorage.setItem('userToken', res.data);
-              localStorage.setItem('username', this.input.username);
-              router.push({path: '/tasks'})
+            if(!res.data.error)
+            {
+                this.msg = res.data;
+                localStorage.setItem('userToken', res.data);
+                localStorage.setItem('username', this.input.username);
+                router.push({path: '/tasks'});
             }
+
             else {
-              this.msg = 'no';
+              this.msg = res.data.error;
             }
           }).catch((error) => {
             // eslint-disable-next-line
@@ -53,7 +54,7 @@ export default {
             this.getBooks();
           });
         } else {
-          console.log('A username and password must be present');
+          this.msg = 'A username and password must be present';
         }   
       },
     
