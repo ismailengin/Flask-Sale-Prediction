@@ -59,6 +59,11 @@ export default {
   components: {
     navbar: Navbar,
   },
+  created() {
+    if (this.token) {
+      router.push({ path: '/tasks' });
+    }
+  },
 };
 </script>
 
