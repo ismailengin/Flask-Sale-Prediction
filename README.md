@@ -2,8 +2,6 @@
 
 Sale prediction project using previous sale data with python and Vue.
 
-## Project Structure
-
 ## Features
 
 -Uses Python for back-end and VueJS for front-end development 
@@ -47,6 +45,7 @@ npm run serve
 ```
 
 -Server side application will run at http://localhost:5000 
+
 -Client side application will run at http://localhost:8080
 
 -After logging in, in ['Tasks'](http://localhost:8080/tasks) users can see previously added prediction tasks. Pressing "Start prediction" button will start a new prediction for the selected task.
