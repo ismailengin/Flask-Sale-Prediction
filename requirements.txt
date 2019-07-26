@@ -1,0 +1,11 @@
+pandas
+matplotlib
+sklearn
+keras
+tensorflow
+numpy
+flask
+flask_cors
+flask_jwt_extended
+werkzeug
+passlib
