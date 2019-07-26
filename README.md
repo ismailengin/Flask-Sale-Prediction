@@ -5,7 +5,9 @@ Sale prediction project using previous sale data with python and Vue.
 ## Features
 
 -Uses Python for back-end and VueJS for front-end development 
+
 -Supports XLSX and CSV File types for datafiles
+
 -Uses Keras LSTM for data prediction
 
 ## Installation
