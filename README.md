@@ -10,6 +10,8 @@ Sale prediction project using previous sale data with python and Vue.
 
 -Uses Keras LSTM for data prediction
 
+-Supports exporting prediction results in ".png" format
+
 ## Installation
 
 Clone this project:
@@ -34,7 +36,9 @@ Run server side application in one terminal:
 
 ```
 python3.7 -m venv env
+
 source env/bin/activate
+
 python app.py
 ```
 

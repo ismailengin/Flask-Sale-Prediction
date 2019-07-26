@@ -10,8 +10,8 @@
           <tbody>
             <tr v-for="(tasks, index) in tasks" :key="index">
               <td>{{ tasks.taskname }}</td>
-              <td>{{startTime}}</td>
-              <td>{{endTime}}</td>
+              <!--<td>{{startTime}}</td>
+              <td>{{endTime}}</td> -->
               <td>
                 <div class="btn-group" role="group">
                   <button type="button" class="btn btn-warning btn-sm"

@@ -133,6 +133,22 @@ def getTasks():
         'tasks': [task for task in TASKS if task['owner'] == owner],
     })
 
+@app.route('/changePass', methods=['POST'])
+def changePass():
+    username = request.form.get('username')
+    oldPass = request.form.get('oldPass')
+    newPass = request.form.get('newPass')
+    index = 0
+    for i in range(0, len(USERS)):
+        if USERS[i].username == username:
+            index = i
+            break
+    print(username, oldPass, newPass)
+    USERS[i].password = newPass        
+    return jsonify({
+        'status': 'success',
+    })
+
 @app.route('/predict/<task_id>', methods=['PUT'])
 def predict(task_id):
     RESULTS.append({

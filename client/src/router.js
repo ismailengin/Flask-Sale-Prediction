@@ -5,6 +5,7 @@ import Register from './views/Register.vue';
 import CreateTask from './views/CreateTask.vue';
 import Tasks from './views/Tasks.vue';
 import Result from './views/Result.vue';
+import Profile from './views/Profile.vue';
 
 Vue.use(Router);
 
@@ -41,6 +42,11 @@ export default new Router({
       path: '/result/:id',
       name: 'Result',
       component: Result,
+    },
+    {
+      path: '/profile',
+      name: 'profile',
+      component: Profile,
     },
   ],
 });

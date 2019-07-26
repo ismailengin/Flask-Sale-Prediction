@@ -7,12 +7,13 @@
         <b-form-input type="text" name="username" v-model="input.username" placeholder="Username" />
         </b-form-group>
         <b-form-group>
-        <b-form-input type="password" name="password" v-model="input.password" placeholder="Password" />
+        <b-form-input type="password" name="password"
+          v-model="input.password" placeholder="Password" />
         </b-form-group>
         <button type="button" class="btn btn-warning btn-sm" v-on:click="login()">Login</button>
         <br><br>
         <p1 id="alert" style="color:red;"> {{msg}} </p1>
-     </b-form>   
+     </b-form>
     </div>
 </template>
 
@@ -41,7 +42,7 @@ export default {
           username: this.input.username,
           password: this.input.password,
         };
-        //this.msg = this.input.username + this.input.password;
+        // this.msg = this.input.username + this.input.password;
         axios.post(path, payload).then((res) => {
           if (!res.data.error) {
             this.msg = res.data;
